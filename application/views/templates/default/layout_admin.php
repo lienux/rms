@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark" style="background-color: #014898;">
             <a class="navbar-brand" href="#">
-                <img src="{public}assets/images/{logo}" width="25px">
+                <!-- <img src="{public}assets/images/{logo}" width="25px"> -->
                 <span class="">{company}</span>
             </a>
             <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>

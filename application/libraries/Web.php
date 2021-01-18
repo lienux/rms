@@ -45,7 +45,7 @@ class Web {
     	
     }
 
-    public function page_admin()
+    public function page_admin($collapse_pengaturan=null)
     {
     	if($this->ci->session->userdata('logged_in') != TRUE){
 			redirect("login");
@@ -79,7 +79,9 @@ class Web {
 		    'logout' => base_url().'logout',
 		    'link_menu_dashboard' => base_url().'dashboard',
 		    'link_menu_data_jalan' => base_url().'jalan',
-		    'link_menu_data_rambu' => base_url().'rambu'
+		    'link_menu_data_rambu' => base_url().'rambu',
+		    'link_menu_profile' => base_url().'profile',
+		    'collapse_pengaturan'=>$collapse_pengaturan
 		);
 
 		$data = $web+$items;

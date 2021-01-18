@@ -27,26 +27,26 @@
                 Pengaturan
                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
             </a>
-            <div class="collapse" id="collapsePengaturan" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
+            <div class="collapse{collapse_pengaturan}" id="collapsePengaturan" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                    <a class="nav-link klik" href="#" id="profil">
+                    <a class="nav-link klik {menu_profile}" href="{link_menu_profile}" id="profil">
                         <div class="sb-nav-link-icon">
                             <i class="fas fa-file-contract"></i>
                         </div>
                         Profile
                     </a>
-                    <a class="nav-link klik" href="#" id="about">
+                    <a class="nav-link klik {menu_about}" href="{link_menu_about}" id="about">
                         <div class="sb-nav-link-icon">
                             <i class="fas fa-file-contract"></i>
                         </div>
                         About
                     </a>
-                    <a class="nav-link klik" href="#" id="account">
+                    <!-- <a class="nav-link klik {menu_about}" href="#" id="account">
                         <div class="sb-nav-link-icon">
                             <i class="fas fa-file-contract"></i>
                         </div>
                         Account
-                    </a>
+                    </a> -->
                     <!-- <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
                         Authentication
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
