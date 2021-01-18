@@ -1,0 +1,59 @@
+{
+    "count": 1,
+    "data": [
+        {
+            "driver_id": 231,
+            "region_name": "Ponorogo",
+            "first_lmb": [
+                {
+                    "jml_pend": 0,
+                    "turun": 0,
+                    "total_bgs": 0,
+                    "naik": 0,
+                    "sisa": 0,
+                    "pend_bgs": 0,
+                    "pend_pnp": 0
+                }
+            ],
+            "from_name": "(PNG) Jeruk",
+            "vehicle_id": 514,
+            "trip_type": "reguler",
+            "keterangan": "",
+            "total_data": 2,
+            "address_from": "",
+            "konsumsi_bbm": 0,
+            "second_lmb": [
+                {
+                    "jml_pend": 0,
+                    "turun": 0,
+                    "total_bgs": 0,
+                    "naik": 0,
+                    "sisa": 0,
+                    "pend_bgs": 0,
+                    "pend_pnp": 0
+                }
+            ],
+            "to_lat": -7.84902869594689,
+            "address_to": "",
+            "waktu_berangkat": "13/04/2020 07:10:21",
+            "from_lng": 111.23435560000001,
+            "route_name": "PNG 05 (Ponorogo - Jeruk) 53 km",
+            "to_name": "(PNG) Ponorogo",
+            "route_id": 1220,
+            "id": 51628,
+            "gpswox_dbid": 532,
+            "to_id": 413,
+            "driver_name": "Igoimin",
+            "from_lat": -7.95020135897724,
+            "name": "SPDA000646PNG",
+            "from_id": 418,
+            "vehicle_name": "PNG 6230 - AE7537US",
+            "to_lng": 111.46912500000056,
+            "status": "end",
+            "waktu_draft": "13/04/2020 06:55:21",
+            "region_id": 85,
+            "waktu_selesai": "14/04/2020 06:47:32",
+            "waktu_sampai": "13/04/2020 08:43:05"
+        }
+    ]
+}

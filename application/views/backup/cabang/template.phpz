@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <link rel="icon" type="image/png" href="<?=asset_url();?>images/favicon.ico">
+        <title>e-Kontrak</title>    
+        <?php 
+            $this->load->view('temp/css');
+            $iduser = $this->session->userdata('iduser');
+            $nama = $this->session->userdata('nama');
+            $user = $this->session->userdata('user');
+            $type = $this->session->userdata('type');
+            if ($type == 0) {
+                $user_type = 'Kantor Cabang';
+            }else{
+                $user_type = 'BPTD';
+            }
+        ?>
+        <script>
+            base_url = '<?=base_url();?>';
+            type = '<?=$type;?>';
+        </script>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark" style="background-color: #014898;">
+            <a class="navbar-brand" href="#"><span id="nmpo">e-Kontrak Perintis</span></a>
+            <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#">
+                <i class="fas fa-bars"></i>
+            </button><!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                <div class="input-group text-white">
+                    <!-- Selamat Datang Cabang <?=$nama;?> -->
+                </div>
+            </form>
+            <!-- Navbar-->
+            <ul class="navbar-nav ml-auto ml-md-0 ">
+                <!-- <li class="nav-item dropdown">
+                    <a class="nav-link text-light" id="alertDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge badge-pill badge-warning">3</span>
+                    </a>
+                    <div class="shadow dropdown-menu dropdown-menu-right border border-warning" aria-labelledby="alertDropdown">
+                        <a class="dropdown-item" href="#">Contoh 1</a>
+                        <a class="dropdown-item" href="#">Contoh 2</a>
+                        <a class="dropdown-item" href="#">Contoh 3</a>
+                    </div>
+                </li> -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link text-light" id="pesanDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-envelope"></i>
+                        <span class="badge badge-pill badge-warning" id="jmlPesan"></span>
+                    </a>
+                    <div class="shadow dropdown-menu dropdown-menu-right border border-warning" aria-labelledby="pesanDropdown" style="padding: 0px;">
+                        <div class="card">
+                            <h6 class="card-header"><i class="fas fa-envelope"></i> Pesan untuk anda</h6>
+                            <div class="card-body" id="isiPesan">
+                                <p class="text-monospace list-group"></p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="#" class="btn btn-primary float-right">Skip</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <!-- <img src="<?=base_url();?>assets/images/logo_menhub.png" alt="..." class="align-self-center rounded-circle" width="30px"> -->
+                    <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user fa-fw"></i>                        
+                        <span class="small">
+                            Selamat Datang, Cabang <?=$nama;?>
+                        </span>                            
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        <a class="dropdown-item klik" href="#" id="ganti_passwd">Ganti Password</a>
+                        <a class="dropdown-item" href="#">Activity Log</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item klik" href="#" onclick="logout();" id="logout">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav" class="collapse">
+                <nav class="sb-sidenav accordion sb-sidenav-primary" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <!-- <div class="sb-sidenav-menu-heading">Core</div> -->
+                            <a class="nav-link klik" href="#" id="dash">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                </div>
+                                Dashboard
+                            </a>
+                            <!-- <div class="sb-sidenav-menu-heading">Interface</div> -->
+                            <a class="nav-link klik" href="#" id="kontrak">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fas fa-file-contract"></i>
+                                </div>
+                                Data Kontrak
+                            </a>
+                            <a class="nav-link klik" href="#" id="trayek">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fas fa-route"></i> 
+                                </div>
+                                Data Trayek
+                            </a>
+                            <a class="nav-link klik" href="#" id="kendaraan">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fas fa-bus-alt"></i> 
+                                </div>
+                                Data Kendaraan
+                            </a>   
+                            <a class="nav-link klik" href="#" id="pengemudi">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fas fa-id-card-alt"></i> 
+                                </div>
+                                Data Pengemudi
+                            </a>
+                            <a class="nav-link klik" href="#" id="pesan">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fas fa-inbox"></i> 
+                                </div>
+                                Pesan Masuk &nbsp;<span class="badge badge-pill badge-warning" id="jmlPesan2"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        <?=$user_type;?>
+                        <div id="kontrakID"></div>
+                    </div> -->
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid mt-4">
+                        <div class="alert alert-danger collapse" role="alert" id="alert-kontrak"></div>
+                    </div>                      
+                    <div class="container-fluid maryam"></div>
+                    
+                    <!-- Modal -->
+                    <div class="modal fade" id="setKontrakID" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content" style="background-color: #FFFCD4;">
+                            <div class="modal-header bg-primary text-white">
+                                <h5 class="modal-title" id="staticBackdropLabel">Form Pilih Periode Kontrak</h5>
+                                <a href="#" onClick="logout();" class="btn btn-warning">
+                                    <i class="fa fa-power-off"></i>
+                                    Logout
+                                </a>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label class="small mb-1 font-weight-bold" >
+                                        Pilih Periode Kontrak
+                                    </label>
+                                    <select class="custom-select" name="kontrak_id" id="kontrak_id">
+                                        <option value="" selected>--- Periode Kontrak ---</option>
+                                    </select>
+                                    <label class="small text-secondary">Pengaturan ini bertujuan untuk me-load data sesuai periode kontrak yang anda pilih.</label>
+                                </div>
+                            <div class="form-group mb-0">
+                                <label>
+                                    Belum memiliki periode kontrak? <a href="#" onclick="formKontrak();">Klik di sini.</a>
+                                </label>                                
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <a href="#" class="btn btn-primary" id="setKontrak"><i class="fas fa-check"></i> Pilih</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Modal Loader-->
+                    <!-- <div class="modal fade" id="modal-loader" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="text-center">
+                                        <div class="d-flex justify-content-center">
+                                            <div class="spinner-border text-danger" style="width: 3rem; height: 3rem;" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    Prosessss sedang berlangsung....
+                                </div>                            
+                            </div>
+                        </div>
+                    </div> -->
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; angkutanjalan.com</div>
+                            <div>
+                                <a href="#">Kementerian Perhubungan</a>
+                                &middot;
+                                <a href="#">Direktorat Jenderal Perhubungan Darat</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+
+        <?php $this->load->view('temp/js');?>
+        
+        <!-- JS -->
+        <script>
+            // $('#pesanDropdown').click();
+            getKontrak();
+            // $( function() {
+            //     $( "#tglkontrak" ).datepicker({
+            //         dateFormat: "yy-mm-dd",
+            //         todayBtn: "linked",
+            //         autoclose: true,
+            //         todayHighlight: true,
+            //         container: '#myModal modal-body'
+            //     });   
+            // });            
+
+            function setKontrak(kontrak_id){
+                Cookies.set('kontrak_id', kontrak_id, { expires: 1 });
+                var coki_kontrak_id = Cookies.get('kontrak_id');
+                $('#kontrakID').html(coki_kontrak_id);
+                // $('#setKontrakID').modal('hide');
+            }
+
+            $('select').on('change', function (e) {
+                var optionSelected = $("option:selected", this);
+                var kontrak_id = this.value;
+                // setKontrak(kontrak_id);
+            });
+
+            $('#setKontrak').click(function(){
+                var getID = $('#kontrak_id').val();
+                if (getID == '') {
+                    alert('Silahkan pilih periode kontrak!');
+                }else{
+                    Cookies.set('kontrak_id', getID, { expires: 1 });
+                    var coki_kontrak_id = Cookies.get('kontrak_id');
+
+                    $.ajax({
+                        url: base_url + 'cabang/kontrak/get/'+coki_kontrak_id,
+                        type: 'GET',
+                        dataType: 'JSON',
+                        contentType: false,
+                        processData: false,
+                        beforeSend: function(e) {
+                            // $('#lodertabel').show();
+                            if(e && e.overrideMimeType) {
+                                e.overrideMimeType('application/jsoncharset=UTF-8')
+                            }
+                        },
+                        complete: function(){
+                            // $('#lodertabel').hide();
+                        },
+                        success: function(response){
+                            // console.log(response);
+                            var tglkontrak = response.ngajingoding[0].tglkontrak,
+                                nokontrak = response.ngajingoding[0].no_kontrak,
+                                pimpinan = response.ngajingoding[0].pimpinan,
+                                verifikasi = response.ngajingoding[0].verifikasi
+                            Cookies.set('verifikasi', verifikasi, { expires: 1 });
+                            $('#alert-kontrak').html(
+                                'Periode Kontrak : '+
+                                '<span class="font-weight-bold">'+
+                                    tglkontrak+' | '+nokontrak+' | '+pimpinan+
+                                '</span> '+
+                                '<span class="small">Silahkan refresh halaman untuk mengganti periode kontrak atau</span> '+
+                                '<a href="<?=base_url();?>admin">Klik di sini.</a>'
+                            );
+                            $('#layoutSidenav_nav').show();
+                            $('#alert-kontrak').show();
+                            $('#dash').addClass('active');
+                            $('.maryam').load(dash);
+                            $('#setKontrakID').modal('hide');
+                            // getPesan();
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.responseText);
+                        }
+                    });
+                }              
+            });
+
+            function formKontrak(){
+                $('.maryam').load(form_kontrak);
+                $('#setKontrakID').modal('hide');
+            }
+
+            $('#setKontrakID').modal('show');
+
+            $('#btn-batal').click(function(){
+                $('#formTambah').hide();
+            })
+
+            $('#btn-simpan').click(function(){
+                simpan();
+            })
+
+            // $('#nmpo').html(Cookies.get('nmpo'));
+            // $('#nmpo').html('E-Kontrak Perintis');
+
+            // if(type==0){
+            //     $('#menu-cabang').show();
+            // }
+
+            var dash = base_url + 'cabang/template/dash',
+                kontrak = base_url + 'cabang/kontrak/index',
+                form_kontrak = base_url + 'cabang/kontrak/form_kontrak',
+                trayek = base_url + 'cabang/trayek/index',
+                kendaraan = base_url + 'cabang/kendaraan/index',
+                pengemudi = base_url + 'cabang/pengemudi/index',
+                ganti_passwd = base_url + 'cabang/user/ganti_passwd',
+                pesan = base_url+'pesan/index'
+
+            // $('#dash').addClass('active');
+            // $('.maryam').load(dash);
+
+            $('.klik').click(function(){
+                $('a').removeClass('active');
+                $(this).addClass('active');
+                var menu = $(this).attr('id');
+                $(this).addClass('active');
+
+                if(menu == "kontrak"){
+                    $('.maryam').load(kontrak);
+                }
+                else if(menu == "trayek"){
+                    $('.maryam').load(trayek);      
+                }
+                else if(menu == "kendaraan"){
+                    $('.maryam').load(kendaraan);       
+                }
+                else if(menu == "pengemudi"){
+                    $('.maryam').load(pengemudi);       
+                }
+                else if(menu == "dash"){
+                    $('.maryam').load(dash);
+                }
+                else if(menu == "ganti_passwd"){
+                    $('.maryam').load(ganti_passwd);
+                }
+                else if(menu == "pesan"){
+                    $('.maryam').load(pesan);
+                }
+                // else if(menu == "logout"){
+                //     logout();      
+                // }
+            });
+
+            function getKontrak(){
+                $.ajax({
+                    url: base_url + 'cabang/kontrak/get',
+                    type: 'GET',
+                    dataType: 'JSON',
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function(e) {
+                        $('#lodertabel').show();
+                        if(e && e.overrideMimeType) {
+                            e.overrideMimeType('application/jsoncharset=UTF-8')
+                        }
+                    },
+                    complete: function(){
+                        $('#lodertabel').hide();
+                    },
+                    success: function(response){
+                        // console.log(response);
+                        createOptionKontrak(response.ngajingoding);
+                    }
+                });
+            };
+
+            function createOptionKontrak(ngajingoding){
+                // $('.cabang-tb-kontrak tbody').empty();
+                for(index in ngajingoding){
+                    var 
+                    id = ngajingoding[index].id,
+                    no_kontrak = ngajingoding[index].no_kontrak,
+                    tglkontrak = ngajingoding[index].tglkontrak,
+                    pimpinan = ngajingoding[index].pimpinan
+
+                    var a = '';
+                    a += '<option value="'+id+'">'+tglkontrak+' ('+pimpinan+')'+'</option>';
+                    $('#kontrak_id').append(a); 
+                }        
+            };
+
+            function loader(){
+                $('#modal-loader').modal('show');
+            }
+
+            function loader_out(){
+                $('#modal-loader').modal('hide');
+            }
+
+            function simpan(){
+                var formData = new FormData($('#form-simpan form')[0]);
+                var urlData = base_url + 'cabang/kontrak/add';
+                $.ajax({
+                    type: 'POST',
+                    url: urlData,
+                    dataType: 'JSON',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function(e) {
+                        $('#loader').show()
+                        if(e && e.overrideMimeType) {
+                            e.overrideMimeType('application/jsoncharset=UTF-8')
+                        }
+                    },
+                    complete: function(){
+                        $('#loader').hide();
+                    },
+                    success: function(response){
+                        if(response.status == 'sukses'){
+                            $('#alert-modal').html(response.pesan).fadeIn().delay(2000).fadeOut();
+                            getKontrak();
+                            $('#formTambah').hide();
+                            // riwayatkontrak();
+                            // dataTerakhir();
+                            // $('.maryam').delay(2000).queue(function( nxt ) {
+                            //     $(this).load(base_url+'kontrak/index');
+                            //     $('a').removeClass('active');
+                            //     $('#kontrak').addClass('active');
+                            //     nxt();
+                            // }); 
+                        }else{ 
+                            $('#alert-modal').html(response.pesan).fadeIn().delay(2500).fadeOut();
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.responseText);
+                    }
+                });
+            };
+
+            function logout(){
+                $.ajax({
+                    url: base_url + 'login/logout',
+                    type: 'GET',
+                    dataType: 'JSON',
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function(e) {
+                        $('#loder_out').show();
+                        if(e && e.overrideMimeType) {
+                            e.overrideMimeType('application/jsoncharset=UTF-8')
+                        }
+                    },
+                    complete: function(){
+                        $('#loder_out').hide();
+                    },
+                    success: function(response){
+                        Cookies.remove('kontrak_id');
+                        Cookies.remove('verifikasi');
+                        $(location).attr('href',base_url);
+                    }
+                });
+            };
+
+            function getPesan(){
+                $.ajax({
+                    url: base_url+'pesan/get',
+                    type: 'GET',
+                    dataType: 'JSON',
+                    contentType: false,
+                    processData: false,
+                    // beforeSend: function(e){
+
+                    // },
+                    // complete: function(){
+
+                    // },
+                    success: function(response){
+                        $('#jmlPesan,#jmlPesan2').html(response.jml);
+                        if(response.status == 'sukses'){
+                            createListPesan(response.ngajingoding);
+                            $('#pesanDropdown').click();
+                            // console.log(response);
+                        }
+                    }
+                });
+            };
+
+            function createListPesan(ngajingoding){
+                $('#isiPesan p').empty();
+                nurut = Number(0);
+                for(index in ngajingoding){ 
+                    nurut +=1;  
+                    content = ngajingoding[index].pesan; 
+                    c = content.substr(0,15)+'... <span class="small text-primary">selengakapnya<span>';
+                    var 
+                    a = 
+                    '<a class="dropdown-item" href="#">'+nurut+'. '+c+'</a>';
+                    $('#isiPesan p').append(a); 
+                }
+            }
+        </script>
+    </body>
+</html>
