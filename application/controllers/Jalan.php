@@ -22,22 +22,10 @@ class Jalan extends CI_Controller {
 	{
 		$web = $this->web->page_admin();
 		$data = $web+['menu_data_jalan'=>'active'];
-		// $level = $this->session->userdata('level');
-		// $nama = 'jalan';
-		// $items = array(
-		// 	'head_tabel'=>'Data Jalan',
-		// 	'head_form'=>'Input Data Jalan',
-		// 	'th_element'=>'<th>No</th> <th>Nama</th> <th>Status</th> <th>Latlon</th> <th></th>',
-		// 	// 'input_element'=> $this->input_element(),
-		// 	'parse_action_tambah'=>'$("#form_input").removeClass("col-lg-12"); $("#form_input").addClass("col-lg-4");
-		// 							$("#layout_tabel").removeClass("col-lg-12"); $("#layout_tabel").addClass("col-lg-8");
-		// 							get_list_status_jalan();',
-		// 	'parse_action_close'=>'$("#form_input").removeClass("col-lg-4"); $("#form_input").addClass("col-lg-12");
-		// 							$("#layout_tabel").removeClass("col-lg-8"); $("#layout_tabel").addClass("col-lg-12");'
-		// );                                
+		
+		$res = $this->mJalan->get();                              
 
-		// $this->parser->parse('templates/'.themes().'/layout_form',$items);
-		$data['content'] = $this->load->view('templates/'.themes().'/layout_tabel',array(),true);
+		$data['content'] = $this->load->view('page/jalan/list_data',array('data_table'=>$res),true);
 		// $this->load->view('templates/'.themes().'/modal_hapus')
 		// ->view('app/'.$nama.'_'.$level.'_js')
 		// ->view('app/status_jalan');

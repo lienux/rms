@@ -9,7 +9,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Rambu extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
-		$this->load->model('Mod_kasbon', 'mKasbon');
+		$this->load->library('web');
+		$this->load->model('Mod_rambu', 'mRambu');
 
 		if($this->session->userdata('logged_in') != TRUE){
 			redirect("login");
@@ -17,25 +18,23 @@ class Rambu extends CI_Controller {
 
 	}
 
-	public function index(){
+	public function index()
+	{
+		$web = $this->web->page_admin();
+		$data = $web+['menu_data_rambu'=>'active'];
 
-		$level = $this->session->userdata('level');
-		$nama = 'rambu';
-		$items = array(
-			'head_tabel'=>'Data Rambu Rambu Lalu Lintas',
-			'head_form'=>'Input Data Rambu Rambu Lalu Lintas',
-			'th_element'=>'<th>No</th> <th>Nama</th> <th>Jenis</th> <th>Lokasi</th> <th>Tahun Anggaran</th> <th>Kondisi</th> <th>Latlon</th> <th>Foto</th> <th></th>',
-			'input_element'=> $this->input_element(),
-			'parse_action_tambah'=>'$("#form_input").removeClass("col-lg-12"); $("#form_input").addClass("col-lg-4");
-									$("#layout_tabel").removeClass("col-lg-12"); $("#layout_tabel").addClass("col-lg-8");',
-			'parse_action_close'=>'$("#form_input").removeClass("col-lg-4"); $("#form_input").addClass("col-lg-12");
-									$("#layout_tabel").removeClass("col-lg-8"); $("#layout_tabel").addClass("col-lg-12");'
-		);                                
+		$res = $this->mRambu->get();
 
-		$this->parser->parse('templates/'.themes().'/layout_form',$items);
-		$this->parser->parse('templates/'.themes().'/layout_tabel',$items);
-		$this->load->view('templates/'.themes().'/modal_hapus')
-		->view('app/'.$nama.'_'.$level.'_js');
+		// var_dump($res);
+
+		$data['content'] = $this->load->view('page/rambu/list_data',array('data_table'=>$res),true);
+
+		$this->parser->parse('templates/'.themes().'/layout_admin', $data);                           
+
+		// $this->parser->parse('templates/'.themes().'/layout_form',$items);
+		// $this->parser->parse('templates/'.themes().'/layout_tabel',$items);
+		// $this->load->view('templates/'.themes().'/modal_hapus')
+		// ->view('app/'.$nama.'_'.$level.'_js');
 
 	}
 

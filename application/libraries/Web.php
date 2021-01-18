@@ -78,7 +78,8 @@ class Web {
 		    'username' => $this->ci->session->userdata('username'),
 		    'logout' => base_url().'logout',
 		    'link_menu_dashboard' => base_url().'dashboard',
-		    'link_menu_data_jalan' => base_url().'jalan'
+		    'link_menu_data_jalan' => base_url().'jalan',
+		    'link_menu_data_rambu' => base_url().'rambu'
 		);
 
 		$data = $web+$items;
