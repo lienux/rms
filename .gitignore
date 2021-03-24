@@ -1,6 +1,6 @@
-system
-index.php
-public
+#system
+#index.php
+#public
 # application/cache
 # application/core
 # application/helper
