@@ -26,7 +26,9 @@ class Dashboard extends CI_Controller {
 	{
 		$web = $this->web->page_admin();
 		$data = $web+['menu_dashboard'=>'active'];
-		$data['content'] = $this->load->view('card_info',array(),true);
+		$card_info = $this->load->view('card_info',array(),true);
+		$map = $this->load->view('map',array(),true);
+		$data['page'] = $this->load->view('page/dash/dash',array('card_info'=>$card_info,'map'=>$map),true);
 		
 		$this->parser->parse('templates/'.themes().'/layout_admin', $data);
 	}

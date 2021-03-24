@@ -1,10 +1,10 @@
-<div class="col-lg-12" id="layout_tabel">
+<div class="{col}" id="layout_tabel">
     <div class="card mb-4">
         <div class="card-header"><i class="fas fa-table mr-1"></i>Data Rambu Lalu Lintas</div>
         <div class="card-body">
             <div class="table-responsive">
                 <div class="form-group">
-                    <a class="btn btn-outline-primary btn-sm" href="#" id="btn-tambah" title="Tambah Data">Tambah</a> 
+                    <a class="btn btn-outline-primary btn-sm {disabled}" href="<?=base_url();?>rambu/tambah" id="btn-tambah" title="Tambah Data">Tambah</a> 
                     <!-- <a class="btn btn-outline-primary btn-sm" href="#" id="btn-excel" title="Export to Excel">Excel</a>
                     <a class="btn btn-outline-primary btn-sm" href="#" id="btn-excel" title="Export to PDF">PDF</a> -->
                 </div>
@@ -12,11 +12,13 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Foto</th>
+                            <th>Nama Rambu</th>
                             <th>Jenis Rambu</th>
-                            <th>Lokasi</th>
-                            <th>Kondisi</th>
-                            <th>LatLon</th>
+                            <th>Kondisi Rambu</th>
+                            <th>Tahun Anggaran</th>
+                            <th>Lokasi Jalan</th>
+                            <th>Titik Koordinat</th>
+                            <th>Foto</th>
                             <th></th>
                         </tr>            
                     </thead>
@@ -24,12 +26,26 @@
                     <?php $no=1; foreach ($data_table as $row) { ?>
                         <tr>
                             <td><?=$no++;?></td>
-                            <td><?=$row['foto'];?></td>
+                            <td><?=$row['nama_rambu'];?></td>
                             <td><?=$row['jenis_rambu'];?></td>
-                            <td><?=$row['lokasi_jalan'];?></td>
                             <td><?=$row['kondisi_rambu'];?></td>
+                            <td class="text-center"><?=$row['tahun_anggaran'];?></td>
+                            <td><?=$row['lokasi_rambu'];?></td>
                             <td><?=$row['latitude'].','.$row['longitude'];?></td>
-                            <td></td>
+                            <td><?=$row['foto'];?></td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                    <div class="btn-group" role="group">
+                                        <a href="#" id="btnGroupDrop1" data-toggle="dropdown"><i class="fa fa-cogs"></i></a>
+                                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                            <a class="dropdown-item" href="<?=base_url('rambu/edit/'.$row['id']);?>">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </a>
+                                            <a class="dropdown-item" href="#" onclick="modal_hapus('<?=$row["id"];?>');"><i class="fas fa-trash-alt"></i> Hapus</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     <?php } ?>
                     </tbody>
@@ -46,12 +62,9 @@
     </div>        
 </div>
 
-<script type="text/javascript">
-
-    $('#btn-tambah').click(function(){
-        $('#btn-tambah').addClass('disabled');
-        $('#form_input').show();
-        {parse_action_tambah}
-    })
-
+<script>
+    function modal_hapus(id){
+        $('#btn-hapus').attr('href','<?=base_url();?>jalan/doHapus/'+id);
+        $('#modalHapus').modal('show');
+    }
 </script>

@@ -1,12 +1,10 @@
-<div class="col-lg-12" id="layout_tabel">
+<div class="{col}" id="layout_tabel">
     <div class="card mb-4">
-        <div class="card-header"><i class="fas fa-table mr-1"></i>Data Jalan</div>
+        <div class="card-header"><i class="fas fa-table mr-1"></i>List Data Jalan</div>
         <div class="card-body">
             <div class="table-responsive">
                 <div class="form-group">
-                    <a class="btn btn-outline-primary btn-sm" href="#" id="btn-tambah" title="Tambah Data">Tambah</a> 
-                    <!-- <a class="btn btn-outline-primary btn-sm" href="#" id="btn-excel" title="Export to Excel">Excel</a>
-                    <a class="btn btn-outline-primary btn-sm" href="#" id="btn-excel" title="Export to PDF">PDF</a> -->
+                    <a class="btn btn-outline-primary btn-sm {disabled}" href="<?=base_url();?>jalan/tambah" id="btn-tambah" title="Tambah Data">Tambah</a>
                 </div>
                 <table class="table-sm table-hover table-bordered text-muted" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -25,29 +23,51 @@
                             <td><?=$row['name'];?></td>
                             <td><?=$row['status_jalan'];?></td>
                             <td><?=$row['latitude'].','.$row['longitude'];?></td>
-                            <td></td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                    <div class="btn-group" role="group">
+                                        <a href="#" id="btnGroupDrop1" data-toggle="dropdown"><i class="fa fa-cogs"></i></a>
+                                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                            <a class="dropdown-item" href="<?=base_url('jalan/edit/'.$row['id']);?>">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </a>
+                                            <a class="dropdown-item" href="#" onclick="modal_hapus('<?=$row["id"];?>');"><i class="fas fa-trash-alt"></i> Hapus</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     <?php } ?>
                     </tbody>
                 </table>
-            </div>
-            <!-- <div class="collapese" id="loader_tabel">
-               <div class="d-flex justify-content-center" >
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="sr-only">Loading...</span>
-                    </div>
-                </div> 
-            </div> -->        
+            </div>   
         </div>
     </div>        
 </div>
 
-<script type="text/javascript">
+<div class="modal fade" id="modalHapus" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Hapus Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Anda Yakin Ingin Menghapus Data???
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a type="button" class="btn btn-danger" id="btn-hapus">Hapus</a>
+            </div>
+        </div>
+    </div>
+</div>
 
-    $('#btn-tambah').click(function(){
-        $('#btn-tambah').addClass('disabled');
-        $('#form_input').show();
-        {parse_action_tambah}
-    })
-
+<script>
+    function modal_hapus(id){
+        $('#btn-hapus').attr('href','<?=base_url();?>jalan/doHapus/'+id);
+        $('#modalHapus').modal('show');
+    }
 </script>

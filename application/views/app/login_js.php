@@ -30,7 +30,7 @@
             },
             success: function(response){
                 if(response.status == 'sukses'){
-                    location.href = base_url + 'admin';
+                    location.href = base_url + 'dashboard';
                 }else{ 
                     $('#pesan-error').html(response.pesan).show()
                 }

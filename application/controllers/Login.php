@@ -15,7 +15,7 @@ class Login extends CI_Controller {
 		$this->load->model('Mod_login', 'mlogin');
 
 		if($this->session->userdata('logged_in') == TRUE){
-			redirect("admin");
+			redirect("dashboard");
 		}
 	}
 

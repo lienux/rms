@@ -22,12 +22,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <link rel="stylesheet" type="text/css" href="{public}css/semutbasah.css">
         <link rel="stylesheet" type="text/css" href="{public}css/fahira_admin.css">
         <script src="{public}plugins/font-awesome/5.11.2/js/all.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxHlrMcummUyCCwnms0FOI_HNgQeP4sXQ"></script>
     </head>
     <body class="sb-nav-fixed">
-        <nav class="sb-topnav navbar navbar-expand navbar-dark" style="background-color: #014898;">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <a class="navbar-brand" href="#">
                 <!-- <img src="{public}assets/images/{logo}" width="25px"> -->
-                <span class="">{company}</span>
+                <span class="">Road Management System</span>
             </a>
             <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
             <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -85,9 +86,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="alert alert-danger collapse" role="alert" id="alert"></div>
                     </div> -->
                     <div class="container-fluid mt-4">
-                        <div class="alert alert-danger collapse mt-4" role="alert" id="alert"></div>
+                        <?php $message = $this->session->flashdata('message'); if($message!=null) { ?>
+                        <div class="alert alert-success mt-4" role="alert" id="alert"><?= $message;?></div>
+                        <?php } ?>
                         <div class="row maryam" id="maryam">
-                            <?= $content; ?>
+                            <?= $page; ?>
                         </div>
                     </div>                  
                 </main>
@@ -95,10 +98,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
         </div>
 
+        <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+
         <!-- JQUERY -->
-        <script src="{public}plugins/jquery/jquery-2.1.1.min.js"></script>
-        <!-- <script src="{public}plugins/jquery/jquery-3.4.1.min.js" crossorigin="anonymous"></script> -->
-        <script src="{public}plugins/jquery-ui-1.12.1/jquery-ui.js"></script>
+        <!-- <script src="{public}plugins/jquery/jquery-2.1.1.min.js"></script> -->
+        <script src="{public}plugins/jquery/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+        <!-- <script src="{public}plugins/jquery-ui-1.12.1/jquery-ui.js"></script> -->
 
         <!-- BOOTSTSRAPS -->
         <script src="{public}plugins/bootstrap-4.4.1-dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

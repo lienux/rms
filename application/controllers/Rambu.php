@@ -10,6 +10,7 @@ class Rambu extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->library('web');
+		$this->load->model('Mod_data_master', 'mdMaster');
 		$this->load->model('Mod_rambu', 'mRambu');
 
 		if($this->session->userdata('logged_in') != TRUE){
@@ -20,22 +21,135 @@ class Rambu extends CI_Controller {
 
 	public function index()
 	{
-		$web = $this->web->page_admin();
-		$data = $web+['menu_data_rambu'=>'active'];
+		$style = array(
+			'col'=>'col-lg-12',
+			'disabled'=>''
+		);
 
+		$web = $this->web->page_admin();		
+		$res = $this->mRambu->get();
+		$data_list = array('data_table'=>$res)+$style;
+
+		// echo json_encode($data);
+
+		$data_layout = $web+['menu_data_rambu'=>'active'];
+		$data_layout['page'] = $this->parser->parse('page/rambu/list_data',$data_list,true);
+		
+		$this->parser->parse('templates/'.themes().'/layout_admin', $data_layout);
+	}
+
+	public function tambah()
+	{
+		$style = array(
+			'col'=>'col-lg-8',
+			'disabled'=>'disabled'
+		);
+
+		$web = $this->web->page_admin();
+		$data_layout = $web+['menu_data_rambu'=>'active'];
 		$res = $this->mRambu->get();
 
-		// var_dump($res);
+		$data = array('data_table'=>$res)+$style;
 
-		$data['content'] = $this->load->view('page/rambu/list_data',array('data_table'=>$res),true);
+		// echo json_encode($data);
+		$data_form = array(
+			'do_to'=>'doSimpan'
+		);
+		$data_form['data'] = $this->parser->parse('page/rambu/list_data',$data,true);
+		$data_form['list_jenis_rambu'] = $this->mdMaster->get_list_jenis_rambu();
+		$data_form['list_kondisi_rambu'] = $this->mdMaster->get_list_kondisi_rambu();
 
-		$this->parser->parse('templates/'.themes().'/layout_admin', $data);                           
+		$data_layout['page'] = $this->parser->parse('page/rambu/form',$data_form,true);
 
-		// $this->parser->parse('templates/'.themes().'/layout_form',$items);
-		// $this->parser->parse('templates/'.themes().'/layout_tabel',$items);
-		// $this->load->view('templates/'.themes().'/modal_hapus')
-		// ->view('app/'.$nama.'_'.$level.'_js');
+		$this->parser->parse('templates/'.themes().'/layout_admin', $data_layout);
+	}
 
+	public function doSimpan()
+	{
+		$data = array(
+			'nama_rambu'=>$this->input->post('input_nama'),
+			'jenis_rambu_id'=>$this->input->post('opt_jenis_rambu'),
+			'kondisi_rambu_id'=>$this->input->post('opt_kondisi_rambu'),
+			'tahun_anggaran'=>$this->input->post('input_ta'),
+			'lokasi_rambu'=>$this->input->post('input_lokasi'),
+			'latitude'=>$this->input->post('input_lat'),
+			'longitude'=>$this->input->post('input_lon'),
+			'foto'=>$this->input->post('input_foto')
+		);
+
+		$res = $this->mRambu->simpan($data);
+
+		if ($res > 0) {
+			$this->session->set_flashdata('message', 'Alhamdulillah... <span class="font-weight-bold">'.$this->input->post('input_nama').'</span> berhasil tersimpan...');
+			redirect("rambu");
+		}else{
+			echo "Gagal!";
+		}
+
+	}
+
+	public function edit($id=null)
+	{
+		if ($id==null) {
+			# code...
+			echo "id tidak boleh kosong!";
+		}else{
+			$style = array(
+				'col'=>'col-lg-8',
+				'disabled'=>'disabled'
+			);
+
+			$web = $this->web->page_admin();
+			$data_layout = $web+['menu_data_jalan'=>'active'];
+			$res = $this->mJalan->get();
+			// $detail = $this->mJalan->detail($id);
+			// echo json_encode($res);
+
+			$data = array('data_table'=>$res)+$style;
+
+			// echo json_encode($data);
+			$data_form = array(
+				'do_to'=>'doUpdate'
+			);
+			$data_form['data'] = $this->parser->parse('page/jalan/list_data',$data,true);
+			$data_form['list_status_jalan'] = $this->mJalan->get_list_status_jalan();
+			$data_form['detail'] = $this->mJalan->detail($id);
+
+			$data_layout['page'] = $this->parser->parse('page/jalan/form',$data_form,true);
+
+			$this->parser->parse('templates/'.themes().'/layout_admin', $data_layout);
+		}
+	}
+
+	public function doUpdate($id)
+	{
+		$data = array(
+			'name'=>$this->input->post('input_jalan'),
+			'status_jalan_id'=>$this->input->post('opt_status'),
+			'latitude'=>$this->input->post('input_lat'),
+			'longitude'=>$this->input->post('input_lon')
+		);
+
+		$res = $this->mJalan->update($id,$data);
+
+		if ($res > 0) {
+			$this->session->set_flashdata('message', 'Alhamdulillah... berhasil tersimpan...');
+			redirect("jalan/edit/".$id);
+		}else{
+			echo "Gagal!";
+		}
+	}
+
+	public function doHapus($id)
+	{
+		$res = $this->mJalan->hapus($id);
+
+		if ($res > 0) {
+			$this->session->set_flashdata('message', 'Alhamdulillah... berhasil dihapus...');
+			redirect("jalan");
+		}else{
+			echo "Gagal!";
+		}
 	}
 
 	public function get($id=null){
@@ -64,81 +178,81 @@ class Rambu extends CI_Controller {
 		echo json_encode(['bocahgantengdotcom'=>$data]);
 	}
 
-	function input_element(){
-		return 
-		'<div class="form-row">
-			<div class="col-md-12">
-				<div class="form-group input-group-sm">
-					<label class="small mb-1 font-weight-bold">
-						Nama Rambu
-					</label>
-					<input class="form-control" name="input_nama_rambu" type="text" id="input_nama_rambu" />
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="form-group input-group-sm">
-					<label class="small mb-1 font-weight-bold">
-						Jenis Rambu
-					</label>
-					<select class="custom-select" name="opt_jenis_rambu" id="opt_jenis_rambu">
-					    <option selected>Pilih...</option>
-					</select>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="form-group input-group-sm">
-					<label class="small mb-1 font-weight-bold">
-						Lokasi Jalan
-					</label>
-					<select class="custom-select" name="opt_lokasi_jalan" id="opt_lokasi_jalan">
-					    <option selected>Pilih...</option>
-					</select>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="form-group input-group-sm">
-	            	<label class="small mb-1 font-weight-bold">
-	            		Tahun Anggaran
-	            	</label>
-	            	<input class="form-control" name="input_tahun_anggaran" type="text" id="input_tahun_anggaran" />
-	        	</div>
-	        </div>
-	        <div class="col-md-6">
-				<div class="form-group input-group-sm">
-					<label class="small mb-1 font-weight-bold">
-						Lokasi Jalan
-					</label>
-					<select class="custom-select" name="opt_kondisi" id="opt_kondisi">
-					    <option selected>Pilih...</option>
-					</select>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="form-group input-group-sm">
-	            	<label class="small mb-1 font-weight-bold">
-	            		Latitude
-	            	</label>
-	            	<input class="form-control" name="input_lat" type="text" id="input_lat" />
-	        	</div>
-	        </div>
-	        <div class="col-md-6">
-				<div class="form-group input-group-sm">
-	            	<label class="small mb-1 font-weight-bold">
-	            		Logitude
-	            	</label>
-	            	<input class="form-control" name="input_lon" type="text" id="input_lon" />
-	        	</div>
-	        </div>
-	        <div class="col-md-12">
-				<div class="form-group input-group-sm">
-	            	<label class="small mb-1 font-weight-bold">
-	            		Gambar / Foto
-	            	</label>
-	            	<input type="file" class="form-control" name="input_foto" type="text" id="input_foto" />
-	        	</div>
-	        </div>
-        </div>';
-	}
+	// function input_element(){
+	// 	return 
+	// 	'<div class="form-row">
+	// 		<div class="col-md-12">
+	// 			<div class="form-group input-group-sm">
+	// 				<label class="small mb-1 font-weight-bold">
+	// 					Nama Rambu
+	// 				</label>
+	// 				<input class="form-control" name="input_nama_rambu" type="text" id="input_nama_rambu" />
+	// 			</div>
+	// 		</div>
+	// 		<div class="col-md-6">
+	// 			<div class="form-group input-group-sm">
+	// 				<label class="small mb-1 font-weight-bold">
+	// 					Jenis Rambu
+	// 				</label>
+	// 				<select class="custom-select" name="opt_jenis_rambu" id="opt_jenis_rambu">
+	// 				    <option selected>Pilih...</option>
+	// 				</select>
+	// 			</div>
+	// 		</div>
+	// 		<div class="col-md-6">
+	// 			<div class="form-group input-group-sm">
+	// 				<label class="small mb-1 font-weight-bold">
+	// 					Lokasi Jalan
+	// 				</label>
+	// 				<select class="custom-select" name="opt_lokasi_jalan" id="opt_lokasi_jalan">
+	// 				    <option selected>Pilih...</option>
+	// 				</select>
+	// 			</div>
+	// 		</div>
+	// 		<div class="col-md-6">
+	// 			<div class="form-group input-group-sm">
+	//             	<label class="small mb-1 font-weight-bold">
+	//             		Tahun Anggaran
+	//             	</label>
+	//             	<input class="form-control" name="input_tahun_anggaran" type="text" id="input_tahun_anggaran" />
+	//         	</div>
+	//         </div>
+	//         <div class="col-md-6">
+	// 			<div class="form-group input-group-sm">
+	// 				<label class="small mb-1 font-weight-bold">
+	// 					Lokasi Jalan
+	// 				</label>
+	// 				<select class="custom-select" name="opt_kondisi" id="opt_kondisi">
+	// 				    <option selected>Pilih...</option>
+	// 				</select>
+	// 			</div>
+	// 		</div>
+	// 		<div class="col-md-6">
+	// 			<div class="form-group input-group-sm">
+	//             	<label class="small mb-1 font-weight-bold">
+	//             		Latitude
+	//             	</label>
+	//             	<input class="form-control" name="input_lat" type="text" id="input_lat" />
+	//         	</div>
+	//         </div>
+	//         <div class="col-md-6">
+	// 			<div class="form-group input-group-sm">
+	//             	<label class="small mb-1 font-weight-bold">
+	//             		Logitude
+	//             	</label>
+	//             	<input class="form-control" name="input_lon" type="text" id="input_lon" />
+	//         	</div>
+	//         </div>
+	//         <div class="col-md-12">
+	// 			<div class="form-group input-group-sm">
+	//             	<label class="small mb-1 font-weight-bold">
+	//             		Gambar / Foto
+	//             	</label>
+	//             	<input type="file" class="form-control" name="input_foto" type="text" id="input_foto" />
+	//         	</div>
+	//         </div>
+ //        </div>';
+	// }
 
 	// public function getTerakhir(){
 	// 	$data = $this->mKontrak->dataTerakhir();

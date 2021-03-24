@@ -14,7 +14,7 @@
 
         <style type="text/css">
             html,body{
-                background-image: url('{public}assets/images/bg_accounting.jpg');
+                background-image: url('{public}assets/images/the_road.jpg');
                 background-size: cover;
                 /* background-repeat: no-repeat; */
                 height: 100%;

@@ -13,8 +13,12 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger" id="btn-hapus" onclick="hapus(IDhapus);">Hapus</button>
+                <a href="" type="button" class="btn btn-danger" id="btn-hapus">Hapus</a>
             </div>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $('#modalHapus').modal('show');
+</script>
