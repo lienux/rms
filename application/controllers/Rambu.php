@@ -12,6 +12,7 @@ class Rambu extends CI_Controller {
 		$this->load->library('web');
 		$this->load->model('Mod_data_master', 'mdMaster');
 		$this->load->model('Mod_rambu', 'mRambu');
+		$this->load->model('Mod_jalan', 'mJalan');
 
 		if($this->session->userdata('logged_in') != TRUE){
 			redirect("login");
@@ -58,6 +59,7 @@ class Rambu extends CI_Controller {
 		$data_form['data'] = $this->parser->parse('page/rambu/list_data',$data,true);
 		$data_form['list_jenis_rambu'] = $this->mdMaster->get_list_jenis_rambu();
 		$data_form['list_kondisi_rambu'] = $this->mdMaster->get_list_kondisi_rambu();
+		$data_form['list_data_jalan'] = $this->mJalan->get();
 
 		$data_layout['page'] = $this->parser->parse('page/rambu/form',$data_form,true);
 
@@ -66,16 +68,33 @@ class Rambu extends CI_Controller {
 
 	public function doSimpan()
 	{
+		$foto = $this->input->post('foto_rambu');
+
+		$config['upload_path']		= './public/assets/images/';
+		$config['allowed_types']	= 'jpg|jpeg|png|gif';
+		
+    	$this->load->library('upload',$config);
+
+    	if($this->upload->do_upload('foto_rambu'))
+    	{
+    		$dataUpload = $this->upload->data();
+    		$filename = $dataUpload['file_name'];
+    	}
+    	else{
+			$filename = "";
+    	}
+
 		$data = array(
 			'nama_rambu'=>$this->input->post('input_nama'),
 			'jenis_rambu_id'=>$this->input->post('opt_jenis_rambu'),
 			'kondisi_rambu_id'=>$this->input->post('opt_kondisi_rambu'),
 			'tahun_anggaran'=>$this->input->post('input_ta'),
-			'lokasi_rambu'=>$this->input->post('input_lokasi'),
+			'lokasi_jalan_id'=>$this->input->post('input_lokasi'),
 			'latitude'=>$this->input->post('input_lat'),
 			'longitude'=>$this->input->post('input_lon'),
-			'foto'=>$this->input->post('input_foto')
+			'foto'=>$filename
 		);
+
 
 		$res = $this->mRambu->simpan($data);
 
@@ -85,7 +104,6 @@ class Rambu extends CI_Controller {
 		}else{
 			echo "Gagal!";
 		}
-
 	}
 
 	public function edit($id=null)
@@ -100,8 +118,8 @@ class Rambu extends CI_Controller {
 			);
 
 			$web = $this->web->page_admin();
-			$data_layout = $web+['menu_data_jalan'=>'active'];
-			$res = $this->mJalan->get();
+			$data_layout = $web+['menu_data_rambu'=>'active'];
+			$res = $this->mRambu->get();
 			// $detail = $this->mJalan->detail($id);
 			// echo json_encode($res);
 
@@ -111,11 +129,14 @@ class Rambu extends CI_Controller {
 			$data_form = array(
 				'do_to'=>'doUpdate'
 			);
-			$data_form['data'] = $this->parser->parse('page/jalan/list_data',$data,true);
-			$data_form['list_status_jalan'] = $this->mJalan->get_list_status_jalan();
-			$data_form['detail'] = $this->mJalan->detail($id);
+			$data_form['data'] = $this->parser->parse('page/rambu/list_data',$data,true);
+			// $data_form['list_status_jalan'] = $this->mdMaster->get_list_status_jalan();
+			$data_form['list_jenis_rambu'] = $this->mdMaster->get_list_jenis_rambu();
+			$data_form['list_kondisi_rambu'] = $this->mdMaster->get_list_kondisi_rambu();
+			$data_form['list_data_jalan'] = $this->mJalan->get();
+			$data_form['detail'] = $this->mRambu->detail($id);
 
-			$data_layout['page'] = $this->parser->parse('page/jalan/form',$data_form,true);
+			$data_layout['page'] = $this->parser->parse('page/rambu/form',$data_form,true);
 
 			$this->parser->parse('templates/'.themes().'/layout_admin', $data_layout);
 		}
@@ -123,21 +144,58 @@ class Rambu extends CI_Controller {
 
 	public function doUpdate($id)
 	{
-		$data = array(
-			'name'=>$this->input->post('input_jalan'),
-			'status_jalan_id'=>$this->input->post('opt_status'),
+		$params = array(
+			'nama_rambu'=>$this->input->post('input_nama'),
+			'jenis_rambu_id'=>$this->input->post('opt_jenis_rambu'),
+			'kondisi_rambu_id'=>$this->input->post('opt_kondisi_rambu'),
+			'tahun_anggaran'=>$this->input->post('input_ta'),
+			'lokasi_jalan_id'=>$this->input->post('opt_lokasi_jalan'),
 			'latitude'=>$this->input->post('input_lat'),
 			'longitude'=>$this->input->post('input_lon')
 		);
 
-		$res = $this->mJalan->update($id,$data);
+		$foto = $this->input->post('foto_rambu');
+
+		$config['upload_path']		= './public/assets/images/';
+		$config['allowed_types']	= 'jpg|jpeg|png|gif';
+		
+    	$this->load->library('upload',$config);
+
+    	if($this->upload->do_upload('foto_rambu'))
+    	{
+    		$dataUpload = $this->upload->data();
+    		$filename = $dataUpload['file_name'];
+    		$data = $params+array('foto'=>$filename);
+    	}
+    	else{
+			$data = $params;
+    	}
+
+
+		$res = $this->mRambu->update($id,$data);
 
 		if ($res > 0) {
-			$this->session->set_flashdata('message', 'Alhamdulillah... berhasil tersimpan...');
-			redirect("jalan/edit/".$id);
+			$this->session->set_flashdata('message', 'Alhamdulillah... <span class="font-weight-bold">'.$this->input->post('input_nama').'</span> Update berhasil...');
+			redirect("rambu/edit/".$id);
 		}else{
 			echo "Gagal!";
 		}
+
+		// $data = array(
+		// 	'name'=>$this->input->post('input_jalan'),
+		// 	'status_jalan_id'=>$this->input->post('opt_status'),
+		// 	'latitude'=>$this->input->post('input_lat'),
+		// 	'longitude'=>$this->input->post('input_lon')
+		// );
+
+		// $res = $this->mJalan->update($id,$data);
+
+		// if ($res > 0) {
+		// 	$this->session->set_flashdata('message', 'Alhamdulillah... berhasil tersimpan...');
+		// 	redirect("jalan/edit/".$id);
+		// }else{
+		// 	echo "Gagal!";
+		// }
 	}
 
 	public function doHapus($id)

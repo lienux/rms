@@ -30,9 +30,18 @@
                             <td><?=$row['jenis_rambu'];?></td>
                             <td><?=$row['kondisi_rambu'];?></td>
                             <td class="text-center"><?=$row['tahun_anggaran'];?></td>
-                            <td><?=$row['lokasi_rambu'];?></td>
+                            <td><?=$row['lokasi_jalan'];?></td>
                             <td><?=$row['latitude'].','.$row['longitude'];?></td>
-                            <td><?=$row['foto'];?></td>
+                            <td class="text-center">
+                                <?php 
+                                    $file = $row['foto'];
+
+                                    if ($file) { ?>
+                                        <a href="#" class="view_image" data-toggle="modal" data-target="#modal_show_image" onClick = "show_image('<?=$file;?>');" data-nama="<?=$row['nama_rambu'];?>">
+                                            <i class="fas fa-eye text-warning"></i></td>
+                                        </a>
+                                    <?php }                                    
+                                ?>
                             <td class="text-center">
                                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                     <div class="btn-group" role="group">
@@ -62,9 +71,38 @@
     </div>        
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="modal_show_image" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_title">Image</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="maryam_face"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    function modal_hapus(id){
+    function modal_hapus(id)
+    {
         $('#btn-hapus').attr('href','<?=base_url();?>jalan/doHapus/'+id);
         $('#modalHapus').modal('show');
+    }
+
+    function show_image(file)
+    {
+        var foto = '<img src="<?=base_url();?>public/assets/images/'+file+'">';
+        var nama = $(this).attr("data-nama");
+
+        $('#maryam_face').html(foto);
     }
 </script>

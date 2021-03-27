@@ -102,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <!-- JQUERY -->
         <!-- <script src="{public}plugins/jquery/jquery-2.1.1.min.js"></script> -->
-        <script src="{public}plugins/jquery/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+        <script src="{public}plugins/jquery/jquery-3.4.1.min.js"></script>
         <!-- <script src="{public}plugins/jquery-ui-1.12.1/jquery-ui.js"></script> -->
 
         <!-- BOOTSTSRAPS -->

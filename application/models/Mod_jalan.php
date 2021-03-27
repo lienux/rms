@@ -7,13 +7,19 @@ class Mod_jalan extends CI_Model{
     	$this->load->database();
 	}
 
-	public function get()
+	public function query()
 	{
-		$this->db->select('a.*,b.name as status_jalan')
+		$query = $this->db->select('a.*,b.name as status_jalan')
 		->from('tb_jalan a')
 		->join('status_jalan b', 'a.status_jalan_id = b.id');
 		
-		return $this->db->get()->result_array();
+		return $query;
+    }
+
+    public function get()
+	{
+		$query = $this->query();		
+		return $query->get()->result_array();
     }
 
 	public function detail($id)

@@ -7,20 +7,27 @@ class Mod_rambu extends CI_Model{
     	$this->load->database();
 	}
 
-	public function get(){
-
-		$this->db->select('a.*,b.name as kondisi_rambu,c.name as jenis_rambu')
+	function query()
+	{
+		$query = $this->db->select('a.*,b.name as kondisi_rambu,c.name as jenis_rambu,d.name as lokasi_jalan')
 		->from('tb_rambu a')
-		->join('kondisi_rambu b', 'a.kondisi_rambu_id = b.id')
-		->join('jenis_rambu c', 'a.jenis_rambu_id = c.id');
+		->join('kondisi_rambu b', 'a.kondisi_rambu_id = b.id','left')
+		->join('jenis_rambu c', 'a.jenis_rambu_id = c.id','left')
+		->join('tb_jalan d', 'a.lokasi_jalan_id = d.id','left');
+
+		return $query;
+	}
+
+	public function get()
+	{
+		$query = $this->query();
 		
-		return $this->db->get()->result_array();
+		return $query->get()->result_array();
     }
 
-	public function detail($id){
-
-		$this->db->select('*')
-		->from('tb_jalan')
+	public function detail($id)
+	{
+		$query = $this->query()
 		->where('a.id',$id);
 		
 		return $this->db->get()->result_array();

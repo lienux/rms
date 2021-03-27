@@ -2,3 +2,7 @@
 	echo $card_info;
 	echo $map;
 ?>
+
+<script>
+	
+</script>
