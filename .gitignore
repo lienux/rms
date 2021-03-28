@@ -1,17 +1,2 @@
-#system
-#index.php
-#public
-# application/cache
-# application/core
-# application/helper
-# application/hooks
-# application/language
-# application/libraries
-# application/third_party
-# application/migrations
-# application/logs
-# public/assets
-# public/css
-# public/js
-# public/plugins
-/application/controllers/backup
+application/controllers/backup
+public

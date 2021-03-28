@@ -33,6 +33,11 @@ class Mod_rambu extends CI_Model{
 		return $this->db->get()->result_array();
     }
 
+    public function jml()
+    {
+    	return $this->query()->get()->num_rows();
+    }
+
     public function simpan($data)
     {
     	$date = date('Y-m-d');

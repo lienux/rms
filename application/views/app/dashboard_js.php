@@ -1,11 +1,11 @@
 <script type="text/javascript">
 base_url = '<?=base_url();?>';
-cokies_kontrak_id = Cookies.get('kontrak_id');
+// cokies_kontrak_id = Cookies.get('kontrak_id');
 // jmlTrayek();
 // jmlKendaraan();
 // jmlPengemudi();
 
-// get_jml();
+get_jml();
 // dataTampil();
 // jmlRitase();
 // SGO();
@@ -20,56 +20,53 @@ function get_jml(){
         contentType: false,
         processData: false,
         success: function(response){
-            console.log(response);
-            $('#ico_jml_trayek,#jml_trayek').html(response.jml_trayek);
-            $('#ico_jml_kendaraan').html(response.jml_kendaraan.kendaraan_semua);
-            $('#ico_jml_pengemudi,#jml_pengemudi').html(response.jml_pengemudi);
-            $('#sgo').html(response.jml_kendaraan.kendaraan_sgo);
-            $('#cdg').html(response.jml_kendaraan.kendaraan_cdg);
+            // console.log(response);
+            $('#jml_jalan').html(response.jml_jalan);
+            $('#jml_rambu').html(response.jml_rambu);
         }
     });
 };
 
-function dataTampil(){
-    $.ajax({
-        url: base_url + 'kontrak/get/'+cokies_kontrak_id,
-        type: 'GET',
-        dataType: 'JSON',
-        contentType: false,
-        processData: false,
-        beforeSend: function(e) {
-            $('#lodertabel').show();
-            if(e && e.overrideMimeType) {
-                e.overrideMimeType('application/jsoncharset=UTF-8')
-            }
-        },
-        complete: function(){
-            $('#lodertabel').hide();
-        },
-        success: function(response){
-            // console.log(response);
-            $('#no_kontrak').html(response.ngajingoding[0].no_kontrak);
-            $('#tglkontrak').html(response.ngajingoding[0].tglkontrak);
-            $('#alamat').html(response.ngajingoding[0].alamat);
-            $('#pimpinan').html(response.ngajingoding[0].pimpinan);
-        }
-    });
-};
+// function dataTampil(){
+//     $.ajax({
+//         url: base_url + 'kontrak/get/'+cokies_kontrak_id,
+//         type: 'GET',
+//         dataType: 'JSON',
+//         contentType: false,
+//         processData: false,
+//         beforeSend: function(e) {
+//             $('#lodertabel').show();
+//             if(e && e.overrideMimeType) {
+//                 e.overrideMimeType('application/jsoncharset=UTF-8')
+//             }
+//         },
+//         complete: function(){
+//             $('#lodertabel').hide();
+//         },
+//         success: function(response){
+//             // console.log(response);
+//             $('#no_kontrak').html(response.ngajingoding[0].no_kontrak);
+//             $('#tglkontrak').html(response.ngajingoding[0].tglkontrak);
+//             $('#alamat').html(response.ngajingoding[0].alamat);
+//             $('#pimpinan').html(response.ngajingoding[0].pimpinan);
+//         }
+//     });
+// };
 
-function jmlRitase(){
-    $.ajax({
-        url: base_url + 'trayek/jmlRitase/'+cokies_kontrak_id,
-        type: 'GET',
-        dataType: 'JSON',
-        contentType: false,
-        processData: false,        
-        success: function(response){
-            // console.log(response);
-            $('#ritase_harian').html(response.jml_harian);
-            $('#ritase_tahunan').html(response.jml_tahunan);
-        }
-    });
-};
+// function jmlRitase(){
+//     $.ajax({
+//         url: base_url + 'trayek/jmlRitase/'+cokies_kontrak_id,
+//         type: 'GET',
+//         dataType: 'JSON',
+//         contentType: false,
+//         processData: false,        
+//         success: function(response){
+//             // console.log(response);
+//             $('#ritase_harian').html(response.jml_harian);
+//             $('#ritase_tahunan').html(response.jml_tahunan);
+//         }
+//     });
+// };
 
 // function SGO(){
 //     $.ajax({
