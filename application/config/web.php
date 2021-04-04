@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $config['webconf'] = array (            
     'title' => 'Road Management System',
     'head_title' => 'Road Management System',
-    'icon' => 'fire.png',
+    'icon' => 'kemenhub.ico',
     'logo' => 'fire.png',
     'company' => 'PT. Rancang Olah Jalan',
     'cprg' => 'Copyright &copy; bocahganteng.com',

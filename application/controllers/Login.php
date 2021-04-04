@@ -13,10 +13,6 @@ class Login extends CI_Controller {
 		$this->load->library('web');
 		// $this->load->library('parser');
 		$this->load->model('Mod_login', 'mlogin');
-
-		if($this->session->userdata('logged_in') == TRUE){
-			redirect("dashboard");
-		}
 	}
 
 	public function index(){
@@ -47,6 +43,7 @@ class Login extends CI_Controller {
 				$name 			= $d['name'];
 				$username  		= $d['username'];
 				$level			= $d['level'];
+				$user_role		= $d['user_role_id'];
 			}
 			
 			$data_session 		= array(
@@ -54,6 +51,7 @@ class Login extends CI_Controller {
 				'name'			=> $name,
 				'username'		=> $username,
 				'level'			=> $level,
+				'user_role'		=> $user_role,
 				'logged_in' 	=> TRUE
 			);				
 			

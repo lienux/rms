@@ -7,16 +7,13 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Dashboard extends CI_Controller {
+	
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->library('web');
 		$this->load->model('Mod_jalan', 'mJalan');
 		$this->load->model('Mod_rambu', 'mRambu');
-
-		if($this->session->userdata('logged_in') != TRUE){
-			redirect("login");
-		}
 	}
 
 	public function index()

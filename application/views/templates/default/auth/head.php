@@ -14,10 +14,10 @@
 
         <style type="text/css">
             html,body{
-                background-image: url('{public}assets/images/the_road.jpg');
+                background-image: url('{public}assets/images/jalan.jpeg');
                 background-size: cover;
-                /* background-repeat: no-repeat; */
-                height: 100%;
+                /*background-repeat: no-repeat; */
+                /*height: 100%;*/
                 font-family: 'Numans', sans-serif;
                 }
         </style>

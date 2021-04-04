@@ -22,6 +22,6 @@
         </div>
     </form>
 </div>
-<!-- <div class="card-footer text-center" style="background-color:rgba(192,192,192);}">
-    <div class="small"><a href="#" onclick="register();">Need an account? Sign up!</a></div>
-</div> -->
+<div class="card-footer text-center" style="background-color:rgba(192,192,192);}">
+    <div class="small">v1.0</div>
+</div>

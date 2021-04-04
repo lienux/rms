@@ -185,6 +185,13 @@ if(!function_exists('themes')){
 	}
 }
 
+if(!function_exists('user_role')){
+
+	function user_role($name=''){
+
+		return $this->session->userdata('user_role');
+	}
+}
 // if(!function_exists('plugins_url')){
 	
 // 	function plugins_url($name=''){

@@ -30,7 +30,7 @@ class Web {
     public function page_login()
     {
     	if($this->ci->session->userdata('logged_in') == TRUE){
-			redirect("admin");
+			redirect("dashboard");
 		}
 
     	$web = $this->ci->config->item('webconf');
@@ -99,6 +99,11 @@ class Web {
     public function bar()
     {
             echo $this->CI->config->item('base_url');
+    }
+
+    public function user_role()
+    {
+    	return $this->ci->session->userdata('user_role');
     }
 
 }
