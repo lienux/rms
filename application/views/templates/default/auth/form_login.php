@@ -25,7 +25,7 @@
         <!-- <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0"> -->
         <div class="form-group text-right mb-0">
             <a class="btn btn-primary" href="#" id="login">Login</a>
-        	<a class="btn btn-secondary" href="#" id="register">Register</a>
+        	<a class="btn btn-secondary" href="#" onclick="forget_passwd();" id="register">Register</a>
         </div>
     </form>
 </div>

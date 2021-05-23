@@ -39,7 +39,7 @@
                                     if ($file) {
                                         // code...
                                         if ($tampilkan_gambar_list==1) { ?>
-                                            <img src="<?='public/assets/images/'.$file;?>" width="50px" class="img-thumbnail">
+                                            <img src="<?=base_url().'public/assets/images/'.$file;?>" width="50px" class="img-thumbnail">
                                         <?php }else{ ?>
                                             <a href="#" class="view_image" data-toggle="modal" data-target="#modal_show_image" onClick = "show_image('<?=$file;?>');" data-nama="<?=$row['nama_rambu'];?>">
                                                 <i class="fas fa-eye text-warning"></i></td>
@@ -77,6 +77,26 @@
 </div>
 
 <!-- Modal -->
+<div class="modal fade" id="modalHapus" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Hapus Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Anda Yakin Ingin Menghapus Data???
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a type="button" class="btn btn-danger" id="btn-hapus">Hapus</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="modal_show_image" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -99,7 +119,7 @@
 <script>
     function modal_hapus(id)
     {
-        $('#btn-hapus').attr('href','<?=base_url();?>jalan/doHapus/'+id);
+        $('#btn-hapus').attr('href','<?=base_url();?>rambu/doHapus/'+id);
         $('#modalHapus').modal('show');
     }
 

@@ -26,22 +26,20 @@ class Rambu extends CI_Controller {
 		$set = $this->mSet->detail(1);
 
 		foreach ($set as $row) {
-			// code...
 			$value = $row['value'];
 		}
 
 		$style = array(
 			'col'=>'col-lg-12',
 			'disabled'=>'',
-			'tampilkan_gambar_list'=>$value
+			'tampilkan_gambar_list'=>$value,
+			'show_table'=>true
 		);
 
 
 		$web = $this->web->page_admin();		
 		$res = $this->mRambu->get();
 		$data_list = array('data_table'=>$res)+$style;
-
-		// echo json_encode($data_list);
 
 		$data_layout = $web+['menu_data_rambu'=>'active'];
 		$data_layout['page'] = $this->parser->parse('page/rambu/list_data',$data_list,true);
@@ -51,9 +49,17 @@ class Rambu extends CI_Controller {
 
 	public function tambah()
 	{
+		$set = $this->mSet->detail(1);
+
+		foreach ($set as $row) {
+			$value = $row['value'];
+		}
+
 		$style = array(
 			'col'=>'col-lg-8',
-			'disabled'=>'disabled'
+			'disabled'=>'disabled',
+			'tampilkan_gambar_list'=>$value,
+			'show_table'=>false
 		);
 
 		$web = $this->web->page_admin();
@@ -66,7 +72,8 @@ class Rambu extends CI_Controller {
 		$data_form = array(
 			'do_to'=>'doSimpan'
 		);
-		$data_form['data'] = $this->parser->parse('page/rambu/list_data',$data,true);
+		// $data_form['data'] = $this->parser->parse('page/rambu/list_data',$data,true);
+		$data_form['data'] = $this->parser->parse('page/rambu/map',$data,true);
 		$data_form['list_jenis_rambu'] = $this->mdMaster->get_list_jenis_rambu();
 		$data_form['list_kondisi_rambu'] = $this->mdMaster->get_list_kondisi_rambu();
 		$data_form['list_data_jalan'] = $this->mJalan->get();
@@ -99,7 +106,7 @@ class Rambu extends CI_Controller {
 			'jenis_rambu_id'=>$this->input->post('opt_jenis_rambu'),
 			'kondisi_rambu_id'=>$this->input->post('opt_kondisi_rambu'),
 			'tahun_anggaran'=>$this->input->post('input_ta'),
-			'lokasi_jalan_id'=>$this->input->post('input_lokasi'),
+			'lokasi_jalan_id'=>$this->input->post('opt_lokasi_jalan'),
 			'latitude'=>$this->input->post('input_lat'),
 			'longitude'=>$this->input->post('input_lon'),
 			'foto'=>$filename
@@ -118,13 +125,20 @@ class Rambu extends CI_Controller {
 
 	public function edit($id=null)
 	{
+		$set = $this->mSet->detail(1);
+
+		foreach ($set as $row) {
+			$value = $row['value'];
+		}
+
 		if ($id==null) {
 			# code...
 			echo "id tidak boleh kosong!";
 		}else{
 			$style = array(
 				'col'=>'col-lg-8',
-				'disabled'=>'disabled'
+				'disabled'=>'disabled',
+				'tampilkan_gambar_list'=>$value
 			);
 
 			$web = $this->web->page_admin();
@@ -210,11 +224,11 @@ class Rambu extends CI_Controller {
 
 	public function doHapus($id)
 	{
-		$res = $this->mJalan->hapus($id);
+		$res = $this->mRambu->hapus($id);
 
 		if ($res > 0) {
 			$this->session->set_flashdata('message', 'Alhamdulillah... berhasil dihapus...');
-			redirect("jalan");
+			redirect("rambu");
 		}else{
 			echo "Gagal!";
 		}
