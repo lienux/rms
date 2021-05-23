@@ -10,6 +10,7 @@ class Rambu extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->library('web');
+		$this->load->model('Mod_pengaturan', 'mSet');
 		$this->load->model('Mod_data_master', 'mdMaster');
 		$this->load->model('Mod_rambu', 'mRambu');
 		$this->load->model('Mod_jalan', 'mJalan');
@@ -22,16 +23,25 @@ class Rambu extends CI_Controller {
 
 	public function index()
 	{
+		$set = $this->mSet->detail(1);
+
+		foreach ($set as $row) {
+			// code...
+			$value = $row['value'];
+		}
+
 		$style = array(
 			'col'=>'col-lg-12',
-			'disabled'=>''
+			'disabled'=>'',
+			'tampilkan_gambar_list'=>$value
 		);
+
 
 		$web = $this->web->page_admin();		
 		$res = $this->mRambu->get();
 		$data_list = array('data_table'=>$res)+$style;
 
-		// echo json_encode($data);
+		// echo json_encode($data_list);
 
 		$data_layout = $web+['menu_data_rambu'=>'active'];
 		$data_layout['page'] = $this->parser->parse('page/rambu/list_data',$data_list,true);

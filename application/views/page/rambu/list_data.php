@@ -5,8 +5,8 @@
             <div class="table-responsive">
                 <div class="form-group">
                     <a class="btn btn-outline-primary btn-sm {disabled}" href="<?=base_url();?>rambu/tambah" id="btn-tambah" title="Tambah Data">Tambah</a> 
-                    <!-- <a class="btn btn-outline-primary btn-sm" href="#" id="btn-excel" title="Export to Excel">Excel</a>
-                    <a class="btn btn-outline-primary btn-sm" href="#" id="btn-excel" title="Export to PDF">PDF</a> -->
+                    <a class="btn btn-outline-primary btn-sm" href="#" id="btn-excel" title="Export to Excel">Excel</a>
+                    <a class="btn btn-outline-primary btn-sm" href="#" id="btn-excel" title="Export to PDF">PDF</a>
                 </div>
                 <table class="table-sm table-hover table-bordered text-muted" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -33,14 +33,19 @@
                             <td><?=$row['lokasi_jalan'];?></td>
                             <td><?=$row['latitude'].','.$row['longitude'];?></td>
                             <td class="text-center">
-                                <?php 
+                                <?php
                                     $file = $row['foto'];
 
-                                    if ($file) { ?>
-                                        <a href="#" class="view_image" data-toggle="modal" data-target="#modal_show_image" onClick = "show_image('<?=$file;?>');" data-nama="<?=$row['nama_rambu'];?>">
-                                            <i class="fas fa-eye text-warning"></i></td>
-                                        </a>
-                                    <?php }                                    
+                                    if ($file) {
+                                        // code...
+                                        if ($tampilkan_gambar_list==1) { ?>
+                                            <img src="<?='public/assets/images/'.$file;?>" width="50px" class="img-thumbnail">
+                                        <?php }else{ ?>
+                                            <a href="#" class="view_image" data-toggle="modal" data-target="#modal_show_image" onClick = "show_image('<?=$file;?>');" data-nama="<?=$row['nama_rambu'];?>">
+                                                <i class="fas fa-eye text-warning"></i></td>
+                                            </a>
+                                        <?php }
+                                    }
                                 ?>
                             <td class="text-center">
                                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
